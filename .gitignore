@@ -1,0 +1,10 @@
+.idea/
+*.iml
+*.o
+*.so
+erl_crash.dump
+rebar.lock
+out/
+_build/
+Debug/
+Release/
