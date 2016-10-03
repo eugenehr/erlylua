@@ -10,7 +10,7 @@ then
     cd lua-5.3.3;
 fi
 
-make MYCFLAGS="-fPIC" MYLDFLAGS="-fPIC" TO_LIB="liblua$LUA.a" echo $PLATFORM
+make MYCFLAGS="-fPIC" MYLDFLAGS="-fPIC" TO_LIB="liblua$LUA.a" $PLATFORM
 make INSTALL_TOP="$LUA_DIR" install
 
 export LIBRARY_PATH="$LIBRARY_PATH:$LUA_DIR/lib"
