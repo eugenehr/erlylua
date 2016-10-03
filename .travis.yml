@@ -1,0 +1,14 @@
+language: erlang
+
+otp_release:
+#  - 18.2.1
+#  - 18.3
+#  - 19.0
+  - 19.1
+
+env:
+  matrix:
+    - LUA=5.3
+
+before_install:
+  - source .travis/setup.sh
