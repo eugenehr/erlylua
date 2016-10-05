@@ -1,21 +1,28 @@
 #!/bin/bash
 
-source .travis/platform.sh
-
-LUA_DIR="$TRAVIS_BUILD_DIR/lua$LUA"
-
-if [ $LUA == "5.3" ]
-then
-    curl http://www.lua.org/ftp/lua-5.3.3.tar.gz | tar xz
-    cd lua-5.3.3;
+if [ -z "${PLATFORM:-}" ]; then
+    PLATFORM=$TRAVIS_OS_NAME;
 fi
 
-make MYCFLAGS="-fPIC" MYLDFLAGS="-fPIC" TO_LIB="liblua$LUA.a" $PLATFORM
-make INSTALL_TOP="$LUA_DIR" install
+if [ "$PLATFORM" == "osx" ]; then
+    PLATFORM="macosx";
+fi
 
-export LIBRARY_PATH="$LIBRARY_PATH:$LUA_DIR/lib"
-export LUA_INCLUDE_DIR=$LUA_DIR/include
-cd $TRAVIS_BUILD_DIR
+if [ -z "$PLATFORM" ]; then
+    if [ "$(uname)" == "Linux" ]; then
+        PLATFORM="linux";
+    else
+        PLATFORM="macosx";
+    fi;
+fi
 
 
-
+if [ "$PLATFORM" == "linux" ]; then
+  - sudo add-apt-repository -y ppa:grilo-team/travis
+  - sudo apt-get update -qq
+  - sudo apt-get install -y liblua5.3-dev
+elif [ "$PLATFORM" == "macosx" ]; then
+    brew update
+    brew tap homebrew/versions
+    brew install homebrew/versions/lua53
+fi
